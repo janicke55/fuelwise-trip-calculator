@@ -7,7 +7,7 @@
   <style>
     :root { color-scheme: light; --ink:#17221c; --muted:#66736c; --paper:#f7f7f2; --card:#fff; --line:#dce3da; --green:#19663d; --green-dark:#0f4a2b; --green-pale:#e5f2e8; --orange:#e1883f; }
     * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:radial-gradient(circle at 1% 0%, #e5f2e8 0%, #f7f7f2 100%); }
+    body { margin:0; min-height:100vh; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:radial-gradient(circle at 10% 20%, #f7fbf8, transparent 30%), linear-gradient(180deg, #f2f6f3, #f7f7f2); }
     .shell { max-width:1080px; margin:auto; padding:28px 20px 44px; }
     header { display:flex; justify-content:space-between; align-items:center; margin-bottom:48px; }
     .brand { display:flex; align-items:center; gap:10px; font-size:1.1rem; font-weight:800; letter-spacing:-.03em; }
@@ -17,7 +17,7 @@
     h1 { margin:0 0 12px; font-size:clamp(2.1rem, 5vw, 4.2rem); line-height:1.02; letter-spacing:-.065em; }
     .intro p { margin:0; color:var(--muted); font-size:1.06rem; line-height:1.55; }
     main { display:grid; grid-template-columns:minmax(0, 1.1fr) minmax(310px, .9fr); gap:22px; align-items:stretch; }
-    .panel { background:var(--card); border:1px solid var(--line); border-radius:24px; box-shadow:0 16px 40px #203d2910; }
+    .panel { background:var(--card); border:1px solid var(--line); border-radius:24px; box-shadow:0 16px 40px rgba(32,61,41,0.06); }
     .controls { padding:28px; }
     .controls h2, .summary h2 { margin:0; font-size:1rem; letter-spacing:-.02em; }
     .field { padding:25px 0; border-bottom:1px solid var(--line); }
@@ -25,9 +25,9 @@
     .field-top { display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:17px; }
     .field label { font-weight:700; }
     output { color:var(--green); font-size:1.3rem; font-weight:800; letter-spacing:-.04em; white-space:nowrap; }
-    input[type="range"] { appearance:none; -webkit-appearance:none; width:100%; height:6px; border-radius:99px; background:linear-gradient(90deg, var(--green) var(--fill), #dce5dd var(--fill)); outline:0; }
-    input[type="range"]::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:22px; height:22px; border:3px solid #fff; border-radius:50%; background:var(--green); box-shadow:0 1px 5px #183a2466; cursor:pointer; }
-    input[type="range"]::-moz-range-thumb { width:16px; height:16px; border:3px solid #fff; border-radius:50%; background:var(--green); box-shadow:0 1px 5px #183a2466; }
+    input[type="range"] { appearance:none; -webkit-appearance:none; width:100%; height:6px; border-radius:99px; background:linear-gradient(90deg, var(--green) var(--fill), #dce5dd var(--fill)); }
+    input[type="range"]::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:22px; height:22px; border:3px solid #fff; border-radius:50%; background:var(--green); box-shadow:0 1px 5px rgba(0,0,0,0.12); }
+    input[type="range"]::-moz-range-thumb { width:16px; height:16px; border:3px solid #fff; border-radius:50%; background:var(--green); box-shadow:0 1px 5px rgba(0,0,0,0.2); }
     .range-limits { display:flex; justify-content:space-between; margin-top:9px; color:var(--muted); font-size:.78rem; }
     .tank-row { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:8px; padding:16px; background:#f4f7f3; border-radius:15px; }
     .tank-row label { font-size:.88rem; font-weight:700; }
@@ -38,8 +38,9 @@
     .option { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 15px; background:#f4f7f3; border-radius:15px; }
     .option label { font-size:.88rem; font-weight:700; }
     .switch { appearance:none; width:38px; height:22px; margin:0; border-radius:99px; background:#cbd7cd; position:relative; cursor:pointer; transition:.18s; }
-    .switch::after { content:""; position:absolute; width:16px; height:16px; top:3px; left:3px; border-radius:50%; background:#fff; box-shadow:0 1px 3px #0003; transition:.18s; }
-    .switch:checked { background:var(--green); }.switch:checked::after { transform:translateX(16px); }
+    .switch::after { content:""; position:absolute; width:16px; height:16px; top:3px; left:3px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.25); transition:.18s; }
+    .switch:checked { background:var(--green); }
+    .switch:checked::after { transform:translateX(16px); }
     .summary { padding:28px; background:var(--green); color:#fff; border-color:var(--green); display:flex; flex-direction:column; }
     .summary h2 { color:#cce6d2; }
     .trip-label { margin-top:46px; color:#cce6d2; font-size:.88rem; font-weight:700; }
@@ -56,12 +57,34 @@
     .footer { margin:22px 0 0; color:var(--muted); text-align:center; font-size:.8rem; }
     .comparison { margin-top:22px; padding:28px; }
     .comparison-head { display:flex; justify-content:space-between; gap:20px; align-items:end; margin-bottom:18px; }
-    .comparison h2 { margin:0; font-size:1.1rem; letter-spacing:-.03em; }.comparison p { margin:5px 0 0; color:var(--muted); font-size:.87rem; }
+    .comparison h2 { margin:0; font-size:1.1rem; letter-spacing:-.03em; }
+    .comparison p { margin:5px 0 0; color:var(--muted); font-size:.87rem; }
     .compare-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; }
-    .vehicle { padding:16px; border:1px solid var(--line); border-radius:16px; }.vehicle.current { border-color:#8dc29d; background:var(--green-pale); }
-    .vehicle small { display:block; color:var(--muted); font-weight:700; }.vehicle strong { display:block; margin-top:8px; font-size:1.22rem; letter-spacing:-.04em; }.vehicle em { display:block; margin:7px 0 0; color:var(--muted); font-size:.82rem; }
-    @media (max-width:720px) { .compare-grid { grid-template-columns:1fr 1fr; }.options { grid-template-columns:1fr; } }
-    @media (max-width:720px) { .shell { padding:16px 14px 20px; } header { margin-bottom:16px; } main { grid-template-columns:1fr; } .controls { padding:18px; } .summary { padding:18px; min-height:auto; } .trip-label { margin-top:0; } .trip-cost { font-size:clamp(2.2rem, 6vw, 3rem); } .trip-note { font-size:.85rem; } .divider { margin:14px 0 12px; } .sub-stat { padding:6px 0; } .sub-stat span { font-size:.8rem; } .sub-stat strong { font-size:.95rem; } .full-tank { padding-top:12px; } .tank-card { padding:12px; } .tank-card small { font-size:.75rem; } .tank-card strong { font-size:1.2rem; margin-top:3px; } .comparison { display:none; } .field { padding:18px 0; } }
+    .vehicle { padding:16px; border:1px solid var(--line); border-radius:16px; }
+    .vehicle.current { border-color:#8dc29d; background:var(--green-pale); }
+    .vehicle small { display:block; color:var(--muted); font-weight:700; }
+    .vehicle strong { display:block; margin-top:8px; font-size:1.22rem; letter-spacing:-.04em; }
+
+    /* Mobile tweaks */
+    @media (max-width:720px) {
+      .compare-grid { grid-template-columns:1fr 1fr; }
+      .options { grid-template-columns:1fr; }
+    }
+    @media (max-width:720px) {
+      .shell { padding:16px 14px 20px; }
+      header { margin-bottom:16px; }
+      main { grid-template-columns:1fr; }
+      .controls { padding:18px; }
+      .summary { padding:18px; min-height:160px; }
+      /* New: mobile cost bar fixed to top */
+      .mobile-cost { display:flex; position:fixed; top:0; left:0; right:0; z-index:999; align-items:center; justify-content:space-between; padding:12px 16px; gap:12px; background:var(--green); color:#fff; border-bottom:1px solid rgba(255,255,255,0.08); }
+      .mobile-cost .label { color:#cce6d2; font-weight:700; font-size:0.95rem; }
+      .mobile-cost .amount { font-weight:900; font-size:1.25rem; letter-spacing:-0.03em; }
+      /* Add top padding so content isn't hidden under the bar */
+      .shell { padding-top:72px; }
+    }
+    /* Hide the mobile bar on wide screens */
+    .mobile-cost { display:none; }
   </style>
 </head>
 <body>
@@ -70,6 +93,13 @@
       <div class="brand"><span class="brand-mark" aria-hidden="true">⛽</span>Fuelwise</div>
       <span class="tag">Trip planner</span>
     </header>
+
+    <!-- Mobile cost bar: visible on small screens and fixed to top -->
+    <div class="mobile-cost" aria-hidden="false">
+      <div class="label">Cost for this trip</div>
+      <div class="amount" id="mobile-cost-amount">€23.00</div>
+    </div>
+
     <section class="intro">
       <h1>Know the cost<br>before you go.</h1>
       <p>Set the details of your drive and get a clear estimate of the fuel you'll use and what it will cost.</p>
@@ -126,31 +156,75 @@
   </div>
   <script>
     const els = {
-      distance: document.getElementById('distance'), consumption: document.getElementById('consumption'), price: document.getElementById('price'), tank: document.getElementById('tank'), roundTrip: document.getElementById('round-trip'), passengers: document.getElementById('passengers'),
-      distanceOut: document.getElementById('distance-out'), consumptionOut: document.getElementById('consumption-out'), priceOut: document.getElementById('price-out'),
-      tripCost: document.getElementById('trip-cost'), tripNote: document.getElementById('trip-note'), per100: document.getElementById('per-100'), perPerson: document.getElementById('per-person'), range: document.getElementById('range'), tankSize: document.getElementById('tank-size'), tankCost: document.getElementById('tank-cost'),
-      yourConsumption: document.getElementById('your-consumption'), yourCost: document.getElementById('your-cost'), hybridCost: document.getElementById('hybrid-cost'), suvCost: document.getElementById('suv-cost'), evCost: document.getElementById('ev-cost')
+      distance: document.getElementById('distance'),
+      consumption: document.getElementById('consumption'),
+      price: document.getElementById('price'),
+      tank: document.getElementById('tank'),
+      roundTrip: document.getElementById('round-trip'),
+      passengers: document.getElementById('passengers'),
+      distanceOut: document.getElementById('distance-out'),
+      consumptionOut: document.getElementById('consumption-out'),
+      priceOut: document.getElementById('price-out'),
+      tripCost: document.getElementById('trip-cost'),
+      tripNote: document.getElementById('trip-note'),
+      per100: document.getElementById('per-100'),
+      perPerson: document.getElementById('per-person'),
+      range: document.getElementById('range'),
+      tankSize: document.getElementById('tank-size'),
+      tankCost: document.getElementById('tank-cost'),
+      yourConsumption: document.getElementById('your-consumption'),
+      yourCost: document.getElementById('your-cost'),
+      hybridCost: document.getElementById('hybrid-cost'),
+      suvCost: document.getElementById('suv-cost'),
+      evCost: document.getElementById('ev-cost'),
+      mobileCostAmount: document.getElementById('mobile-cost-amount')
     };
     const euro = new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const whole = new Intl.NumberFormat('en-IE', { maximumFractionDigits: 0 });
     const electricityPrice = 0.30;
+
     function update() {
-      const oneWayDistance = Number(els.distance.value), distance = oneWayDistance * (els.roundTrip.checked ? 2 : 1), consumption = Number(els.consumption.value), price = Number(els.price.value), tank = Number(els.tank.value), passengers = Number(els.passengers.value);
-      const litres = distance * consumption / 100, total = litres * price, per100 = consumption * price, range = tank / consumption * 100;
+      const oneWayDistance = Number(els.distance.value);
+      const distance = oneWayDistance * (els.roundTrip.checked ? 2 : 1);
+      const consumption = Number(els.consumption.value);
+      const price = Number(els.price.value);
+      const tank = Number(els.tank.value);
+      const passengers = Math.max(1, Number(els.passengers.value) || 1);
+
+      const litres = distance * consumption / 100;
+      const total = litres * price;
+      const per100 = consumption * price;
+      const rangeVal = tank / consumption * 100;
+
       els.distanceOut.textContent = `${whole.format(oneWayDistance)} km`;
       els.consumptionOut.textContent = `${consumption.toFixed(1)} L / 100 km`;
       els.priceOut.textContent = `${euro.format(price)} / L`;
       els.tripCost.textContent = euro.format(total);
+      if (els.mobileCostAmount) els.mobileCostAmount.textContent = euro.format(total);
       els.tripNote.textContent = `${litres.toFixed(2)} L of fuel for ${whole.format(distance)} km${els.roundTrip.checked ? ' round trip' : ''}`;
       els.per100.textContent = euro.format(per100);
       els.perPerson.textContent = euro.format(total / passengers);
-      els.range.textContent = `${whole.format(range)} km`;
+      els.range.textContent = `${whole.format(rangeVal)} km`;
       els.tankSize.textContent = `${whole.format(tank)} L`;
       els.tankCost.textContent = euro.format(tank * price);
-      const hybrid = distance * 4 / 100 * price, suv = distance * 8.5 / 100 * price, ev = distance * 18 / 100 * electricityPrice;
-      els.yourConsumption.textContent = consumption.toFixed(1); els.yourCost.textContent = euro.format(total); els.hybridCost.textContent = euro.format(hybrid); els.suvCost.textContent = euro.format(suv); els.evCost.textContent = euro.format(ev);
-      [els.distance, els.consumption, els.price].forEach(input => { const percentage = (input.value - input.min) / (input.max - input.min) * 100; input.style.setProperty('--fill', `${percentage}%`); });
+
+      const hybrid = distance * 4 / 100 * price;
+      const suv = distance * 8.5 / 100 * price;
+      const ev = distance * 18 / 100 * electricityPrice;
+
+      els.yourConsumption.textContent = consumption.toFixed(1);
+      els.yourCost.textContent = euro.format(total);
+      els.hybridCost.textContent = euro.format(hybrid);
+      els.suvCost.textContent = euro.format(suv);
+      els.evCost.textContent = euro.format(ev);
+
+      // update range-fill for sliders
+      [els.distance, els.consumption, els.price].forEach(input => {
+        const percentage = (input.value - input.min) / (input.max - input.min) * 100;
+        input.style.setProperty('--fill', `${percentage}%`);
+      });
     }
+
     [els.distance, els.consumption, els.price, els.tank, els.roundTrip, els.passengers].forEach(input => input.addEventListener('input', update));
     update();
   </script>
