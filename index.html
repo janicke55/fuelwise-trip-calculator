@@ -7,7 +7,7 @@
   <style>
     :root { color-scheme: light; --ink:#17221c; --muted:#66736c; --paper:#f7f7f2; --card:#fff; --line:#dce3da; --green:#19663d; --green-dark:#0f4a2b; --green-pale:#e5f2e8; --orange:#e1883f; }
     * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:radial-gradient(circle at 10% 0%, #e0f0e5 0, transparent 30rem), var(--paper); }
+    body { margin:0; min-height:100vh; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:radial-gradient(circle at 1% 0%, #e5f2e8 0%, #f7f7f2 100%); }
     .shell { max-width:1080px; margin:auto; padding:28px 20px 44px; }
     header { display:flex; justify-content:space-between; align-items:center; margin-bottom:48px; }
     .brand { display:flex; align-items:center; gap:10px; font-size:1.1rem; font-weight:800; letter-spacing:-.03em; }
@@ -25,8 +25,8 @@
     .field-top { display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:17px; }
     .field label { font-weight:700; }
     output { color:var(--green); font-size:1.3rem; font-weight:800; letter-spacing:-.04em; white-space:nowrap; }
-    input[type="range"] { appearance:none; -webkit-appearance:none; width:100%; height:6px; border-radius:99px; background:linear-gradient(90deg, var(--green) var(--fill), #dce5dd var(--fill)); outline:none; cursor:pointer; }
-    input[type="range"]::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:22px; height:22px; border:3px solid #fff; border-radius:50%; background:var(--green); box-shadow:0 1px 5px #183a2466; }
+    input[type="range"] { appearance:none; -webkit-appearance:none; width:100%; height:6px; border-radius:99px; background:linear-gradient(90deg, var(--green) var(--fill), #dce5dd var(--fill)); outline:0; }
+    input[type="range"]::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:22px; height:22px; border:3px solid #fff; border-radius:50%; background:var(--green); box-shadow:0 1px 5px #183a2466; cursor:pointer; }
     input[type="range"]::-moz-range-thumb { width:16px; height:16px; border:3px solid #fff; border-radius:50%; background:var(--green); box-shadow:0 1px 5px #183a2466; }
     .range-limits { display:flex; justify-content:space-between; margin-top:9px; color:var(--muted); font-size:.78rem; }
     .tank-row { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:8px; padding:16px; background:#f4f7f3; border-radius:15px; }
@@ -59,9 +59,9 @@
     .comparison h2 { margin:0; font-size:1.1rem; letter-spacing:-.03em; }.comparison p { margin:5px 0 0; color:var(--muted); font-size:.87rem; }
     .compare-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; }
     .vehicle { padding:16px; border:1px solid var(--line); border-radius:16px; }.vehicle.current { border-color:#8dc29d; background:var(--green-pale); }
-    .vehicle small { display:block; color:var(--muted); font-weight:700; }.vehicle strong { display:block; margin-top:8px; font-size:1.22rem; letter-spacing:-.04em; }.vehicle em { display:block; margin-top:5px; color:var(--muted); font-size:.78rem; font-style:normal; }
+    .vehicle small { display:block; color:var(--muted); font-weight:700; }.vehicle strong { display:block; margin-top:8px; font-size:1.22rem; letter-spacing:-.04em; }.vehicle em { display:block; margin:7px 0 0; color:var(--muted); font-size:.82rem; }
     @media (max-width:720px) { .compare-grid { grid-template-columns:1fr 1fr; }.options { grid-template-columns:1fr; } }
-    @media (max-width:720px) { .shell { padding:20px 14px 30px; } header { margin-bottom:36px; } main { grid-template-columns:1fr; } .controls, .summary { padding:23px; } .summary { min-height:430px; } }
+    @media (max-width:720px) { .shell { padding:20px 14px 30px; } header { margin-bottom:36px; } main { grid-template-columns:1fr; } .controls, .summary { padding:23px; } .summary { min-height:auto; } .trip-label { margin-top:20px; } }
   </style>
 </head>
 <body>
@@ -72,7 +72,7 @@
     </header>
     <section class="intro">
       <h1>Know the cost<br>before you go.</h1>
-      <p>Set the details of your drive and get a clear estimate of the fuel you’ll use and what it will cost.</p>
+      <p>Set the details of your drive and get a clear estimate of the fuel you'll use and what it will cost.</p>
     </section>
     <main>
       <section class="panel controls" aria-labelledby="details-title">
@@ -128,12 +128,14 @@
     const els = {
       distance: document.getElementById('distance'), consumption: document.getElementById('consumption'), price: document.getElementById('price'), tank: document.getElementById('tank'), roundTrip: document.getElementById('round-trip'), passengers: document.getElementById('passengers'),
       distanceOut: document.getElementById('distance-out'), consumptionOut: document.getElementById('consumption-out'), priceOut: document.getElementById('price-out'),
-      tripCost: document.getElementById('trip-cost'), tripNote: document.getElementById('trip-note'), per100: document.getElementById('per-100'), perPerson: document.getElementById('per-person'), range: document.getElementById('range'), tankSize: document.getElementById('tank-size'), tankCost: document.getElementById('tank-cost'), yourConsumption: document.getElementById('your-consumption'), yourCost: document.getElementById('your-cost'), hybridCost: document.getElementById('hybrid-cost'), hybridSaving: document.getElementById('hybrid-saving'), suvCost: document.getElementById('suv-cost'), suvExtra: document.getElementById('suv-extra'), evCost: document.getElementById('ev-cost'), evSaving: document.getElementById('ev-saving')
+      tripCost: document.getElementById('trip-cost'), tripNote: document.getElementById('trip-note'), per100: document.getElementById('per-100'), perPerson: document.getElementById('per-person'), range: document.getElementById('range'), tankSize: document.getElementById('tank-size'), tankCost: document.getElementById('tank-cost'),
+      yourConsumption: document.getElementById('your-consumption'), yourCost: document.getElementById('your-cost'), hybridCost: document.getElementById('hybrid-cost'), hybridSaving: document.getElementById('hybrid-saving'), suvCost: document.getElementById('suv-cost'), suvExtra: document.getElementById('suv-extra'), evCost: document.getElementById('ev-cost'), evSaving: document.getElementById('ev-saving')
     };
     const euro = new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const whole = new Intl.NumberFormat('en-IE', { maximumFractionDigits: 0 });
+    const electricityPrice = 0.30;
     function update() {
-      const oneWayDistance = Number(els.distance.value), distance = oneWayDistance * (els.roundTrip.checked ? 2 : 1), consumption = Number(els.consumption.value), price = Number(els.price.value), tank = Math.max(1, Number(els.tank.value) || 65), passengers = Math.max(1, Number(els.passengers.value) || 1), electricityPrice = 0.30;
+      const oneWayDistance = Number(els.distance.value), distance = oneWayDistance * (els.roundTrip.checked ? 2 : 1), consumption = Number(els.consumption.value), price = Number(els.price.value), tank = Number(els.tank.value), passengers = Number(els.passengers.value);
       const litres = distance * consumption / 100, total = litres * price, per100 = consumption * price, range = tank / consumption * 100;
       els.distanceOut.textContent = `${whole.format(oneWayDistance)} km`;
       els.consumptionOut.textContent = `${consumption.toFixed(1)} L / 100 km`;
